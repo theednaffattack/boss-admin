@@ -1,8 +1,29 @@
 {
-  "name": "boss-admin",
-  "version": "1.0.0",
-  "description": "A pg-boss task runner / manager.",
-  "main": "main.js",
-  "author": "Eddie Naff <eddie@eddienaff.dev>",
-  "license": "MIT"
+    "name": "boss-admin",
+    "version": "1.0.0",
+    "description": "A pg-boss task runner / manager.",
+    "main": "main.js",
+    "author": "Eddie Naff <eddie@eddienaff.dev>",
+    "license": "MIT",
+    "scripts": {
+        "lint": "eslint '*/**/*.{js,ts,tsx}' --quiet --fix"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,ts}": [
+            "eslint --fix"
+        ]
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^4.14.0",
+        "@typescript-eslint/parser": "^4.14.0",
+        "eslint": "^7.18.0",
+        "eslint-config-prettier": "^7.2.0",
+        "eslint-plugin-prettier": "^3.3.1",
+        "prettier": "^2.2.1"
+    }
 }
