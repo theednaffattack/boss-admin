@@ -1,0 +1,8 @@
+{
+  "name": "boss-admin",
+  "version": "1.0.0",
+  "description": "A pg-boss task runner / manager.",
+  "main": "main.js",
+  "author": "Eddie Naff <eddie@eddienaff.dev>",
+  "license": "MIT"
+}
