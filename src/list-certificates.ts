@@ -6,14 +6,15 @@ import {
     ListCertificatesCommand,
     ListCertificatesCommandOutput,
 } from "@aws-sdk/client-acm";
-import { CredentialsOptions } from "aws-sdk/lib/credentials";
+import { ACMConfigOptions } from "./add-certificate";
 
 const noResultsMessage = "No results, the Certificate List may be empty.";
 
 export async function listsecret(): Promise<
     DescribeCertificateCommandOutput[] | "No results, the Certificate List may be empty."
 > {
-    let credentials: CredentialsOptions | undefined;
+    let credentials: ACMConfigOptions | undefined;
+
     if (process.env.SC_ADMIN_ACCESS_KEY_ID === undefined || process.env.SC_ADMIN_SECRET_ACCESS_KEY === undefined) {
         throw new Error(
             "Error!\n One or both of environment variables: 'SC_ADMIN_ACCESS_KEY_ID' or 'SC_ADMIN_ACCESS_KEY_ID' is undefined. Please set these environment variables and re-run this script.",
