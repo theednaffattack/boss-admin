@@ -3,7 +3,7 @@ import { listSecret } from "./list-certificates";
 
 export const fake = "main";
 
-export async function checkCertificates(): Promise<void> {
+export async function main(): Promise<void> {
     if (process.env.DB_CONNECTION_STRING) {
         const boss = new PgBoss(process.env.DB_CONNECTION_STRING);
 
@@ -37,6 +37,7 @@ export async function checkCertificates(): Promise<void> {
 }
 
 async function someAsyncJobHandler(job: any): Promise<void> {
+    console.log("VIEW JOB", job);
     console.log(`job ${job.id} received with data:`);
     console.log(JSON.stringify(job.data));
 
@@ -49,6 +50,6 @@ async function doSomethingAsyncWithThis(data: any): Promise<string> {
     return new Promise((resolve) => {
         setTimeout(() => {
             resolve(data);
-        }, 9000);
+        }, 3000);
     });
 }
