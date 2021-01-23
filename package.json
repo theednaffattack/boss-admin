@@ -8,6 +8,7 @@
     "scripts": {
         "start": "yarn build && node -r dotenv/config ./dist/main.js",
         "build": "tsc",
+        "echo": "echo \"Hello $npm_config_first $npm_config_last\"",
         "lint": "eslint 'src/*.ts' --quiet --fix",
         "dev": "yarn db:setup && TERM=dumb jest --watch --detectOpenHandles",
         "add-cert": "ts-node -r dotenv/config src/script.upload-certificate.ts",
