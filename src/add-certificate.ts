@@ -1,11 +1,11 @@
-// import { Credentials } from "aws-sdk";
-import { ACMClient, ImportCertificateCommand, ImportCertificateResponse, ACMClientConfig } from "@aws-sdk/client-acm";
-import path from "path";
+import { ACMClient, ACMClientConfig, ImportCertificateCommand, ImportCertificateResponse } from "@aws-sdk/client-acm";
 import fs from "fs";
-import { CredentialsOptions } from "aws-sdk/lib/credentials";
+import path from "path";
 
-export async function uploadCertificate(): Promise<ImportCertificateResponse> {
-    let credentials: CredentialsOptions | undefined;
+export type ACMConfigOptions = ACMClientConfig["credentials"];
+
+export async function addCertificate(): Promise<ImportCertificateResponse> {
+    let credentials: ACMConfigOptions;
 
     if (process.env.SC_ADMIN_ACCESS_KEY_ID && process.env.SC_ADMIN_SECRET_ACCESS_KEY) {
         credentials = {
