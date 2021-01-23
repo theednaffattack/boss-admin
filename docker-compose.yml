@@ -43,7 +43,7 @@ services:
             - boss-db
         container_name: ${API_CONTAINER_NAME}
         volumes:
-            - ${PATH_TO_CERTS}:/app/certs:rw
+            - ${PATH_TO_CERTS}:/app/secret:rw
         environment:
             COOKIE_NAME: ${COOKIE_NAME}
             GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
