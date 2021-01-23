@@ -1,5 +1,5 @@
 import PgBoss from "pg-boss";
-import { listsecret } from "./list-certificates";
+import { listSecret } from "./list-certificates";
 
 export const fake = "main";
 
@@ -40,7 +40,7 @@ async function someAsyncJobHandler(job: any): Promise<void> {
     console.log(`job ${job.id} received with data:`);
     console.log(JSON.stringify(job.data));
 
-    await listsecret();
+    await listSecret();
 
     await doSomethingAsyncWithThis(job.data);
 }
