@@ -1,0 +1,82 @@
+version: "3.2"
+services:
+    # boss-redis:
+    #     image: ${REDIS_IMAGE_NAME}
+    #     container_name: ${REDIS_CONTAINER_NAME}
+    #     environment:
+    #         REDIS_PASS: ${REDIS_PASS}
+    #         REDIS_CMD_OPTS: "--appendonly yes"
+    #     volumes:
+    #         - ${REDIS_DB_PATH}:/data:rw
+    #         - ${REDIS_PATH_TO_CERTS}:/certs:rw
+    #     ports:
+    #         - "0.0.0.0:${REDIS_EXTERIOR_PORT}:${REDIS_STANDARD_PORT}"
+    #     restart: on-failure
+
+    boss-db:
+        container_name: ${DB_CONTAINER_NAME}
+        command: -p ${POSTGRES_INTERIOR_PORT} -c ssl=on -c ssl_cert_file=/var/lib/postgresql/server.crt -c ssl_key_file=/var/lib/postgresql/server.key
+        image: ${POSTGRES_IMAGE}
+        environment:
+            ALLOW_IP_RANGE: 0.0.0.0/0
+            POSTGRES_PASSWORD: ${POSTGRES_PASS}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+            POSTGRES_DB: ${POSTGRES_DBNAME}
+            # POSTGRES_MULTIPLE_EXTENSIONS: postgis,hstore,postgis_topology,postgis_raster,pgrouting
+        volumes:
+            - ${DB_PATH}:/var/lib/postgresql/12/main
+            - ${POSTGRES_SSL_CERT_PATH}/cert.pem:/var/lib/postgresql/server.crt
+            - ${POSTGRES_SSL_CERT_PATH}/key.pem:/var/lib/postgresql/server.key
+            # - ./db/postgres/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+        ports:
+            - "0.0.0.0:${POSTGRES_EXTERIOR_PORT}:${POSTGRES_INTERIOR_PORT}"
+        restart: on-failure
+        healthcheck:
+            test: "exit 0"
+
+    boss-api:
+        image: ${API_IMAGE}
+        expose:
+            - 80
+        depends_on:
+            - boss-db
+        container_name: ${API_CONTAINER_NAME}
+        volumes:
+            - ${PATH_TO_CERTS}:/app/certs:rw
+        environment:
+            COOKIE_NAME: ${COOKIE_NAME}
+            GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
+            LETSENCRYPT_HOST: ${LETSENCRYPT_HOST}
+            LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
+            LETSENCRYPT_KEYSIZE: ${LETSENCRYPT_KEYSIZE}
+            PG_DB_HOST: ${PG_DB_HOST}
+            PG_DB_PORT: ${PG_DB_PORT}
+            PG_PROD_CONNECTION_STRING: ${PG_PROD_CONNECTION_STRING}
+            PORT: ${VIRTUAL_PORT}
+            POSTGRES_PORT: ${POSTGRES_PORT}
+            POSTGRES_PASS: ${POSTGRES_PASS}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_DBNAME: ${POSTGRES_DBNAME}
+            POSTGRES_DB: ${POSTGRES_DBNAME}
+            POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
+            PRODUCTION_CLIENT_ORIGIN: ${PRODUCTION_CLIENT_ORIGIN}
+            PRODUCTION_API_ORIGIN: ${PRODUCTION_API_ORIGIN}
+            PRODUCTION_CLIENT_URI: ${PRODUCTION_CLIENT_URI}
+            PRODUCTION_API_URI: ${PRODUCTION_API_URI}
+            SESSION_SECRET: ${SESSION_SECRET}
+            REDIS_HOST: ${REDIS_HOST}
+            REDIS_INTERIOR_PORT: ${REDIS_INTERIOR_PORT}
+            REDIS_TLS_PORT: ${REDIS_TLS_PORT}
+            REDIS_EXTERIOR_PORT: ${REDIS_EXTERIOR_PORT}
+            REDIS_PASS: ${REDIS_PASS}
+            REDIS_STANDARD_PORT: ${REDIS_STANDARD_PORT}
+            VIRTUAL_PORT: ${VIRTUAL_PORT}
+            VIRTUAL_HOST: ${VIRTUAL_HOST}
+        ports:
+            - ${VIRTUAL_PORT}
+
+networks:
+    default:
+        external:
+            name: ${NETWORK}
