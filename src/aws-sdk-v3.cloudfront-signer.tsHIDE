@@ -1,0 +1,42 @@
+import { CloudFront } from "aws-sdk";
+
+if (process.env.CF_PUBLIC_KEY != null && process.env.CF_PRIVATE_KEY != null) {
+    const cloudFrontPublicKey = process.env.CF_PUBLIC_KEY;
+    const cloudFrontPrivateKey = process.env.CF_PRIVATE_KEY;
+
+    const signer = new CloudFront.Signer(cloudFrontPublicKey, cloudFrontPrivateKey);
+
+    const expireTime = Math.round(new Date().getTime() / 1000) + 3600;
+}
+
+// Handle Login Route
+router.post("/login-route", (req, res) => {
+    /* Code to Verify the credentials */
+
+    // Set Cookies after successful verification
+    const cookie = cloudFront.getSignedCookie({
+        url: "https://cdn.your-domain.com/test/a.txt",
+        expires: Math.floor(new Date().getTime() / 1000) + 60 * 60 * 1, // Current Time in UTC + time in seconds, (60 * 60 * 1 = 1 hour)
+    });
+
+    res.cookie("CloudFront-Key-Pair-Id", cookie["CloudFront-Key-Pair-Id"], {
+        domain: ".your-domain.com",
+        path: "/",
+        httpOnly: true,
+    });
+
+    res.cookie("CloudFront-Expires", cookie["CloudFront-Expires"], {
+        domain: ".your-domain.com",
+        path: "/",
+        httpOnly: true,
+    });
+
+    res.cookie("CloudFront-Signature", cookie["CloudFront-Signature"], {
+        domain: ".your-domain.com",
+        path: "/",
+        httpOnly: true,
+    });
+
+    // Send some response
+    res.send({ some: "response" });
+});
