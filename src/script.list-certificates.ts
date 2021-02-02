@@ -1,7 +1,7 @@
-import { listSecret } from "./list-certificates";
+import { listCertificates } from "./list-certificates";
 
 async function runListCommand() {
-    const secret = await listSecret();
+    const secret = await listCertificates();
     console.log("VIEW RETURNED secret", secret);
 }
 
