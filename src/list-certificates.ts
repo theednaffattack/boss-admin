@@ -10,7 +10,7 @@ import { ACMConfigOptions } from "./add-certificate";
 
 const noResultsMessage = "No results, the Certificate List may be empty.";
 
-export async function listSecret(): Promise<
+export async function listCertificates(): Promise<
     DescribeCertificateCommandOutput[] | "No results, the Certificate List may be empty."
 > {
     let credentials: ACMConfigOptions | undefined;
