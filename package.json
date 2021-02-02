@@ -29,6 +29,7 @@
     },
     "devDependencies": {
         "@jest/types": "^26.6.2",
+        "@types/bcryptjs": "^2.4.2",
         "@types/connect-redis": "^0.0.16",
         "@types/express-session": "^1.17.3",
         "@types/jest": "^26.0.20",
@@ -54,6 +55,7 @@
         "@aws-sdk/client-cloudfront": "^3.3.0",
         "apollo-server-express": "^2.19.2",
         "aws-sdk": "^2.833.0",
+        "bcryptjs": "^2.4.3",
         "class-validator": "^0.13.1",
         "colors": "^1.4.0",
         "connect-redis": "^5.0.0",
@@ -67,6 +69,7 @@
         "internal-ip": "^6.2.0",
         "pg-boss": "^5.0.8",
         "pino": "^6.11.0",
+        "reflect-metadata": "^0.1.13",
         "sql-highlight": "^3.3.2",
         "type-graphql": "^1.1.1",
         "zapatos": "^3.3.0"
