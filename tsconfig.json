@@ -9,6 +9,7 @@
             "dom",
             "es6",
             "es2017",
+            "es2018",
             "esnext.asynciterable"
         ] /* Specify library files to be included in the compilation. */,
 
