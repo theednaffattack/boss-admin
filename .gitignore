@@ -10,3 +10,8 @@ dist
 # Hide environment variables
 .env
 yarn-error.log
+
+# Hide secret files
+secret
+# secret/private_key.pem
+# secret/public_key.pem
