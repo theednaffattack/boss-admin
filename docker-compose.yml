@@ -37,13 +37,20 @@ services:
 
     boss-api:
         image: ${API_IMAGE}
+        init: true
+        user: node
         expose:
             - 80
         depends_on:
             - boss-db
+      resources:
+        limits:
+          # cpus: '0.001'
+          memory: 300M
+          
         container_name: ${API_CONTAINER_NAME}
         volumes:
-            - ${PATH_TO_CERTS}:/app/secret:rw
+            - ${PATH_TO_CERTS}:/app/secret
         environment:
             COOKIE_NAME: ${COOKIE_NAME}
             GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
@@ -74,7 +81,7 @@ services:
             VIRTUAL_PORT: ${VIRTUAL_PORT}
             VIRTUAL_HOST: ${VIRTUAL_HOST}
         ports:
-            - ${VIRTUAL_PORT}
+            - ${VIRTUAL_PORT}:${VIRTUAL_PORT}
 
 networks:
     default:
