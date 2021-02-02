@@ -24,8 +24,9 @@ FROM node:12.16.2-slim
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY package*.json ./
-RUN yarn install --frozen-lockfile --production
+COPY --from=builder /usr/src/app/node_modules ./node_modules
+# COPY package*.json ./
+# RUN yarn install --frozen-lockfile --production
 # RUN npm ci --quiet --only=production
 
 ## We just need the build to execute the command
